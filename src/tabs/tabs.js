@@ -186,7 +186,8 @@ angular.module('ui.bootstrap.tabs', [])
       heading: '@',
       onSelect: '&select', //This callback is called in contentHeadingTransclude
                           //once it inserts the tab's content into the dom
-      onDeselect: '&deselect'
+      onDeselect: '&deselect',
+      changeRequest:'&onChange'
     },
     controller: function() {
       //Empty controller so other directives can require being 'under' a tab
@@ -208,7 +209,10 @@ angular.module('ui.bootstrap.tabs', [])
 
         scope.select = function() {
           if ( !scope.disabled ) {
-            scope.active = true;
+            var result = scope.changeRequest();
+      			if(result == undefined || result){
+      				scope.active = true;
+      			}
           }
         };
 
